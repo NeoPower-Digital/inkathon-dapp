@@ -1,8 +1,10 @@
 import {
+  Button,
+  CircularProgress,
   FormControl,
   InputLabel,
-  Select,
   MenuItem,
+  Select,
   SelectChangeEvent,
 } from "@mui/material";
 import {
@@ -10,7 +12,7 @@ import {
   SubstrateChain,
   useInkathon,
 } from "@scio-labs/use-inkathon";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 
 const ConnectionButton: FC<{
   connectionHandler: (() => Promise<void>) | (() => void) | undefined;
@@ -18,13 +20,13 @@ const ConnectionButton: FC<{
   isConnecting: boolean | undefined;
 }> = ({ connectionHandler, buttonText, isConnecting }) => {
   return (
-    <button
-      className="min-w-[12em] rounded-full bg-white/10 py-3 text-lg font-bold text-white hover:bg-white/20 disabled:cursor-not-allowed"
+    <Button
+      className="text-md min-w-[12em] rounded-full bg-white/10 py-3 font-bold text-white hover:bg-white/20 disabled:cursor-not-allowed"
       onClick={connectionHandler}
       disabled={isConnecting}
     >
-      {buttonText}
-    </button>
+      {isConnecting ? <CircularProgress size="2em" /> : buttonText}
+    </Button>
   );
 };
 
@@ -40,7 +42,10 @@ const WalletConnection: FC<any> = () => {
   const connectionText = isConnected ? "Disconnect" : "Connect";
   const connectionHandler = isConnected ? disconnect : connect;
 
-  const handleSwitchChain = (event: SelectChangeEvent) => {
+  const handleSwitchChain = (
+    event: SelectChangeEvent<unknown>,
+    _: ReactNode
+  ) => {
     const selectedChain: SubstrateChain | undefined = allSubstrateChains.find(
       (chain) => chain.network === event.target.value
     );
@@ -58,17 +63,26 @@ const WalletConnection: FC<any> = () => {
         isConnecting={isConnecting}
       ></ConnectionButton>
 
-      <FormControl fullWidth className="min-w-[12em]">
-        <InputLabel id="switch-chain-select-label">Switch chain</InputLabel>
+      <FormControl
+        fullWidth
+        className="min-w-[12em] disabled:pointer-events-none disabled:cursor-not-allowed"
+        disabled={isConnecting}
+      >
+        <InputLabel id="switch-chain-select-label" className="text-white/75">
+          Switch chain
+        </InputLabel>
         <Select
           labelId="switch-chain-select-label"
           id="switch-chain-select"
+          className=" rounded-full bg-white/10 pl-4 font-bold text-white hover:bg-white/20"
           value={activeChain?.network}
           label="Switch chain"
           onChange={handleSwitchChain}
+          disabled={isConnecting}
         >
           {allSubstrateChains.map((chain: SubstrateChain) => (
             <MenuItem
+              key={chain.network}
               value={chain.network}
               disabled={chain.network == activeChain?.network}
             >
