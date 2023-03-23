@@ -1,6 +1,4 @@
 import {
-  Button,
-  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -13,22 +11,7 @@ import {
   useInkathon,
 } from "@scio-labs/use-inkathon";
 import { FC, ReactNode } from "react";
-
-const ConnectionButton: FC<{
-  connectionHandler: (() => Promise<void>) | (() => void) | undefined;
-  buttonText: string;
-  isConnecting: boolean | undefined;
-}> = ({ connectionHandler, buttonText, isConnecting }) => {
-  return (
-    <Button
-      className="text-md min-w-full rounded-full bg-white/10 py-3 font-bold text-white hover:bg-white/20 disabled:cursor-not-allowed sm:min-w-[12em]"
-      onClick={connectionHandler}
-      disabled={isConnecting}
-    >
-      {isConnecting ? <CircularProgress size="2em" /> : buttonText}
-    </Button>
-  );
-};
+import ConnectionButton from "./ConnectionButton";
 
 const WalletConnection: FC<any> = () => {
   const {
