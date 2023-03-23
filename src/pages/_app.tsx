@@ -6,7 +6,7 @@ import "~/styles/globals.css";
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <UseInkathonProvider appName="inkathon-dApp" defaultChain={astar}>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </UseInkathonProvider>
   );
 };

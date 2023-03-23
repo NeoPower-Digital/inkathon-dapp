@@ -21,7 +21,7 @@ const ConnectionButton: FC<{
 }> = ({ connectionHandler, buttonText, isConnecting }) => {
   return (
     <Button
-      className="text-md min-w-[12em] rounded-full bg-white/10 py-3 font-bold text-white hover:bg-white/20 disabled:cursor-not-allowed"
+      className="text-md min-w-full rounded-full bg-white/10 py-3 font-bold text-white hover:bg-white/20 disabled:cursor-not-allowed sm:min-w-[12em]"
       onClick={connectionHandler}
       disabled={isConnecting}
     >
@@ -56,7 +56,7 @@ const WalletConnection: FC<any> = () => {
   };
 
   return (
-    <div className="flex gap-10">
+    <div className="flex flex-wrap gap-10">
       <ConnectionButton
         connectionHandler={connectionHandler}
         buttonText={connectionText}
@@ -64,8 +64,7 @@ const WalletConnection: FC<any> = () => {
       ></ConnectionButton>
 
       <FormControl
-        fullWidth
-        className="min-w-[12em] disabled:pointer-events-none disabled:cursor-not-allowed"
+        className="min-w-full disabled:pointer-events-none disabled:cursor-not-allowed sm:min-w-[12em]"
         disabled={isConnecting}
       >
         <InputLabel id="switch-chain-select-label" className="text-white/75">
