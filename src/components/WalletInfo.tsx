@@ -1,5 +1,6 @@
 import { useInkathon } from "@scio-labs/use-inkathon";
 import { FC } from "react";
+import AccountSelector from "./AccountSelector";
 
 const WalletInfo: FC = () => {
   const { activeChain, activeAccount, isConnected } = useInkathon();
@@ -26,7 +27,10 @@ const WalletInfo: FC = () => {
       </div>
       {isConnected && (
         <div className="flex min-w-[20em] max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20">
-          <h3 className="text-2xl font-bold">Account Info</h3>
+          <div className="flex gap-2">
+            <h3 className="text-2xl font-bold">Account Info</h3>
+            <AccountSelector />
+          </div>
           <div className="text-lg">
             <div className="flex justify-between gap-3 overflow-ellipsis">
               Address:{" "}
