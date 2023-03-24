@@ -1,7 +1,7 @@
 import { useInkathon } from "@scio-labs/use-inkathon";
 import { FC } from "react";
 
-const WalletInfo: FC<any> = () => {
+const WalletInfo: FC = () => {
   const { activeChain, activeAccount, isConnected } = useInkathon();
 
   return (
@@ -17,9 +17,9 @@ const WalletInfo: FC<any> = () => {
             <span className="font-bold">{activeChain?.network}</span>
           </div>
           <div className="flex justify-between gap-3">
-            Is Testnet:
+            Is TestNet:
             <span className="font-bold">
-              {activeChain?.testnet ? "👍️" : "👎️"}
+              {activeChain?.testnet ? "🟢️" : "🔴️"}
             </span>
           </div>
         </div>

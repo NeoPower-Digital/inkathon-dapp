@@ -13,7 +13,7 @@ import {
 import { FC, ReactNode } from "react";
 import ConnectionButton from "./ConnectionButton";
 
-const WalletConnection: FC<any> = () => {
+const WalletConnection: FC = () => {
   const {
     connect,
     disconnect,
