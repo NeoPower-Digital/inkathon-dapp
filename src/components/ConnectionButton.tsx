@@ -15,7 +15,7 @@ const ConnectionButton: FC<ConnectionButtonProps> = ({
   return (
     <Button
       className="text-md min-w-full rounded-full bg-white/10 py-3 font-bold text-white hover:bg-white/20 disabled:cursor-not-allowed sm:min-w-[12em]"
-      onClick={connectionHandler}
+      onClick={() => connectionHandler?.()}
       disabled={isConnecting}
     >
       {isConnecting ? <CircularProgress size="2em" /> : buttonText}

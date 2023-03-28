@@ -10,7 +10,7 @@ import {
   SubstrateChain,
   useInkathon,
 } from "@scio-labs/use-inkathon";
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useEffect, useState } from "react";
 import ConnectionButton from "./ConnectionButton";
 
 const WalletConnection: FC = () => {
@@ -19,11 +19,24 @@ const WalletConnection: FC = () => {
     disconnect,
     switchActiveChain,
     activeChain,
-    isConnected,
+    activeAccount,
     isConnecting,
   } = useInkathon();
-  const connectionText = isConnected ? "Disconnect" : "Connect";
-  const connectionHandler = isConnected ? disconnect : connect;
+
+  const [connectionOption, setConnectionOption] = useState<{
+    text: string;
+    handler: (() => Promise<void>) | (() => void) | undefined;
+  }>({
+    text: "Connect",
+    handler: connect,
+  });
+
+  useEffect(() => {
+    setConnectionOption({
+      text: activeAccount ? "Disconnect" : "Connect",
+      handler: activeAccount ? disconnect : connect,
+    });
+  }, [activeAccount, connectionOption, connect, disconnect]);
 
   const handleSwitchChain = (
     event: SelectChangeEvent<unknown>,
@@ -41,8 +54,8 @@ const WalletConnection: FC = () => {
   return (
     <div className="flex flex-wrap gap-10">
       <ConnectionButton
-        connectionHandler={connectionHandler}
-        buttonText={connectionText}
+        connectionHandler={connectionOption.handler}
+        buttonText={connectionOption.text}
         isConnecting={isConnecting}
       ></ConnectionButton>
 
@@ -62,9 +75,9 @@ const WalletConnection: FC = () => {
           onChange={handleSwitchChain}
           disabled={isConnecting}
         >
-          {allSubstrateChains.map((chain: SubstrateChain) => (
+          {allSubstrateChains.map((chain: SubstrateChain, index: number) => (
             <MenuItem
-              key={chain.network}
+              key={index}
               value={chain.network}
               disabled={chain.network == activeChain?.network}
             >
