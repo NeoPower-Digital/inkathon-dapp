@@ -1,57 +1,45 @@
 import { useInkathon } from "@scio-labs/use-inkathon";
 import { FC } from "react";
 import AccountSelector from "./AccountSelector";
+import InfoCard, { InfoCardData } from "./InfoCard";
 
 const WalletInfo: FC = () => {
   const { activeChain, activeAccount } = useInkathon();
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-      <div className="flex min-w-[20em] max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20">
-        <h3 className="text-2xl font-bold">Chain info </h3>
-        <div className="text-lg">
-          <div className="flex justify-between gap-3">
-            Name: <span className="font-bold">{activeChain?.name}</span>
-          </div>
-          <div className="flex justify-between gap-3">
-            Network:
-            <span className="font-bold">{activeChain?.network}</span>
-          </div>
-          <div className="flex justify-between gap-3">
-            Is TestNet:
-            <span className="font-bold">
-              {activeChain?.testnet ? "🟢️" : "🔴️"}
-            </span>
-          </div>
-        </div>
-      </div>
+      <InfoCard
+        cardTitle="Chain Info"
+        cardContent={[
+          { title: "Name", content: activeChain?.name || "" },
+          { title: "Network", content: activeChain?.network || "" },
+          {
+            title: "Is TestNet",
+            content: activeChain?.testnet ? "🟢️" : "🔴️",
+          },
+        ]}
+      />
+
       {activeAccount && (
-        <div className="flex min-w-[20em] max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20">
-          <div className="flex gap-2">
-            <h3 className="text-2xl font-bold">Account Info</h3>
-            <AccountSelector />
-          </div>
-          <div className="text-lg">
-            <div className="flex justify-between gap-3 overflow-ellipsis">
-              Address:
-              <span className="font-bold">
-                {activeAccount?.address.slice(0, 5) + "..."}
-              </span>
-            </div>
-            <div className="flex justify-between gap-3">
-              Type:
-              <span className="font-bold">{activeAccount?.type}</span>
-            </div>
-            <div className="flex justify-between gap-3">
-              Name:
-              <span className="font-bold">{activeAccount?.meta.name}</span>
-            </div>
-            <div className="flex justify-between gap-3">
-              Source:
-              <span className="font-bold">{activeAccount?.meta.source}</span>
-            </div>
-          </div>
-        </div>
+        <InfoCard
+          cardTitle="Account Info"
+          cardContent={[
+            {
+              title: "Address",
+              content: activeAccount?.address.slice(0, 5) + "...",
+            },
+            { title: "Type", content: activeAccount?.type || "" },
+            {
+              title: "Name",
+              content: activeAccount?.meta.name || "",
+            },
+            {
+              title: "Source",
+              content: activeAccount?.meta.source || "",
+            },
+          ]}
+          customChildren={<AccountSelector />}
+        />
       )}
     </div>
   );
