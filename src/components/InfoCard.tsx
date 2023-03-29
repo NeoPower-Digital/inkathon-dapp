@@ -12,8 +12,8 @@ const InfoCard: FC<InfoCardData> = ({
         {customChildren}
       </div>
       <div className="text-lg">
-        {cardContent.map(({ title, content }) => (
-          <div className="flex justify-between gap-3">
+        {cardContent.map(({ title, content }, index) => (
+          <div className="flex justify-between gap-3" key={index}>
             {title}: <span className="font-bold">{content}</span>
           </div>
         ))}

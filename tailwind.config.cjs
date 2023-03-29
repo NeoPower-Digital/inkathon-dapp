@@ -7,4 +7,4 @@ const config = {
   plugins: [],
 };
 
-module.exports = config;
+module.exports = { important: true, config };
