@@ -1,10 +1,12 @@
-import { useInkathon } from "@scio-labs/use-inkathon";
+import { useBalance, useInkathon } from "@scio-labs/use-inkathon";
 import { FC, useEffect, useState } from "react";
 import AccountSelector from "./AccountSelector";
 import InfoCard from "./InfoCard";
 
 const WalletInfo: FC = () => {
   const { activeChain, activeAccount, api } = useInkathon();
+  const { balanceFormatted } = useBalance(activeAccount?.address);
+
   const [chainApiInfo, setChainApiInfo] = useState<{
     version: string;
     tokenSymbol: string;
@@ -75,6 +77,10 @@ const WalletInfo: FC = () => {
             {
               title: "Source",
               content: activeAccount?.meta.source || "",
+            },
+            {
+              title: "Balance",
+              content: balanceFormatted || "",
             },
           ]}
           customChildren={<AccountSelector />}
