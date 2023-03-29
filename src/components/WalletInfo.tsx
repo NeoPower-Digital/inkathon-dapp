@@ -1,10 +1,37 @@
 import { useInkathon } from "@scio-labs/use-inkathon";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import AccountSelector from "./AccountSelector";
-import InfoCard, { InfoCardData } from "./InfoCard";
+import InfoCard from "./InfoCard";
 
 const WalletInfo: FC = () => {
-  const { activeChain, activeAccount } = useInkathon();
+  const { activeChain, activeAccount, api } = useInkathon();
+  const [chainApiInfo, setChainApiInfo] = useState<{
+    version: string;
+    tokenSymbol: string;
+    tokenDecimals: number;
+  }>();
+
+  const fetchChainInfo = async () => {
+    if (!api) {
+      setChainApiInfo(undefined);
+      return;
+    }
+
+    const version = (await api.rpc.system.version()).toString();
+    const properties = (await api.rpc.system.properties()).toHuman() as any;
+    const tokenSymbol = properties?.tokenSymbol?.[0] || "UNIT";
+    const tokenDecimals = properties?.tokenDecimals?.[0] || 12;
+
+    setChainApiInfo({
+      version,
+      tokenSymbol,
+      tokenDecimals,
+    });
+  };
+
+  useEffect(() => {
+    fetchChainInfo();
+  }, [api]);
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
@@ -16,6 +43,18 @@ const WalletInfo: FC = () => {
           {
             title: "Is TestNet",
             content: activeChain?.testnet ? "🟢️" : "🔴️",
+          },
+          {
+            title: "Version",
+            content: chainApiInfo?.version || "",
+          },
+          {
+            title: "Token",
+            content: chainApiInfo?.tokenSymbol || "",
+          },
+          {
+            title: "Decimals",
+            content: `${chainApiInfo?.tokenDecimals} Decimals`,
           },
         ]}
       />
