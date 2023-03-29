@@ -1,7 +1,7 @@
 import { astar, UseInkathonProvider } from "@scio-labs/use-inkathon";
 import { type AppType } from "next/dist/shared/lib/utils";
 
-import "~/styles/globals.scss";
+import "~/styles/globals.css";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
