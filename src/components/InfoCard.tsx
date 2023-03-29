@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 
 const InfoCard: FC<InfoCardData> = ({
   cardTitle,
@@ -28,7 +28,7 @@ export interface InfoCardData {
     title: string;
     content: string;
   }[];
-  customChildren?: any;
+  customChildren?: ReactNode;
 }
 
 export default InfoCard;
