@@ -12,7 +12,7 @@ const StyledButton = styled(Button)`
     opacity: 1;
     font-weight: bold;
     color: white;
-    width: 12em;
+    width: 12rem;
     padding: 1em 0;
     border-radius: 2em;
     background-color: rgba(255, 255, 255, 0.1);

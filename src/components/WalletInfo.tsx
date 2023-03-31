@@ -36,7 +36,7 @@ const WalletInfo: FC = () => {
   }, [api]);
 
   return (
-    <div className="flex flex-wrap justify-center gap-6">
+    <div className="flex w-full flex-wrap justify-center gap-4">
       <InfoCard
         cardTitle="Chain Info"
         cardContent={[

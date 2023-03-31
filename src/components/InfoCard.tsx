@@ -5,7 +5,9 @@ const StyledCard = styled(Card)`
   background-color: rgba(255, 255, 255, 0.1);
   color: white;
   padding: 1rem;
-  width: 20rem;
+  min-width: 20rem;
+  max-width: 25rem;
+  flex: 1;
 `;
 
 const InfoCard: FC<InfoCardData> = ({

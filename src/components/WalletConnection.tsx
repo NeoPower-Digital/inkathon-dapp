@@ -15,7 +15,7 @@ import { FC, ReactNode, useEffect, useState } from "react";
 import ConnectionButton from "./ConnectionButton";
 
 const StyledFormControl = styled(FormControl)`
-  width: 12em;
+  width: 12rem;
 
   &:disabled {
     cursor: not-allowed;
@@ -73,13 +73,7 @@ const WalletConnection: FC = () => {
   };
 
   return (
-    <div className="flex flex-wrap gap-6">
-      <ConnectionButton
-        connectionHandler={connectionOption.handler}
-        buttonText={connectionOption.text}
-        isConnecting={isConnecting}
-      ></ConnectionButton>
-
+    <div className="flex w-full flex-wrap justify-end gap-6">
       <StyledFormControl disabled={isConnecting}>
         <InputLabel id="switch-chain-select-label" className="text-white/75">
           Switch chain
@@ -103,6 +97,12 @@ const WalletConnection: FC = () => {
           ))}
         </StyledSelect>
       </StyledFormControl>
+
+      <ConnectionButton
+        connectionHandler={connectionOption.handler}
+        buttonText={connectionOption.text}
+        isConnecting={isConnecting}
+      ></ConnectionButton>
     </div>
   );
 };
