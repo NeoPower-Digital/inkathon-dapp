@@ -1,7 +1,7 @@
 import { Card, styled } from "@mui/material";
 import { FC, ReactNode } from "react";
 
-const StyledCard = styled(Card)`
+export const StyledCard = styled(Card)`
   background-color: rgba(255, 255, 255, 0.1);
   color: white;
   padding: 1rem;

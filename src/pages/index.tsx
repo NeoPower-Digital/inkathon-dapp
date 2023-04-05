@@ -3,6 +3,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
+import ContractInteraction from "~/components/ContractInteraction";
 import WalletConnection from "~/components/WalletConnection";
 import WalletInfo from "~/components/WalletInfo";
 
@@ -33,8 +34,9 @@ const Home: NextPage = () => {
             dApp
           </h1>
 
-          <div className="flex-2">
+          <div className="flex flex-2 flex-col justify-center gap-4">
             <WalletInfo></WalletInfo>
+            <ContractInteraction />
           </div>
         </div>
       </main>
