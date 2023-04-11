@@ -118,9 +118,12 @@ const ContractInteraction: FC = () => {
             variant="outlined"
             value={newMessage}
             onChange={(event) => setNewMessage(event.target.value)}
-            disabled={isLoading}
+            disabled={isLoading || !activeAccount}
           />
-          <StyledButton onClick={updateGreeting} disabled={isLoading}>
+          <StyledButton
+            onClick={updateGreeting}
+            disabled={isLoading || !activeAccount}
+          >
             {isLoading ? <CircularProgress size="1.5rem" /> : "Send"}
           </StyledButton>
         </div>

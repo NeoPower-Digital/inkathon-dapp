@@ -1,4 +1,4 @@
-import { useInkathon } from "@scio-labs/use-inkathon";
+import { alephzeroTestnet, useInkathon } from "@scio-labs/use-inkathon";
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useEffect } from "react";
@@ -8,7 +8,7 @@ import WalletConnection from "~/components/WalletConnection";
 import WalletInfo from "~/components/WalletInfo";
 
 const Home: NextPage = () => {
-  const { error } = useInkathon();
+  const { error, activeChain } = useInkathon();
 
   useEffect(() => {
     if (!error) return;
@@ -36,7 +36,9 @@ const Home: NextPage = () => {
 
           <div className="flex flex-2 flex-col justify-center gap-4">
             <WalletInfo></WalletInfo>
-            <ContractInteraction />
+            {activeChain?.name === alephzeroTestnet.name && (
+              <ContractInteraction />
+            )}
           </div>
         </div>
       </main>
