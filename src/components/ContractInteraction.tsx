@@ -10,7 +10,6 @@ import { FC, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { ContractId } from "~/utils/web3/deployed-contracts";
 import InfoCard, { StyledCard } from "./InfoCard";
-import { set } from "zod";
 
 const StyledButton = styled(Button)`
   && {
@@ -21,6 +20,7 @@ const StyledButton = styled(Button)`
     font-size: 0.8rem;
     border-radius: 2em;
     height: fit-content;
+    width: 7em;
 
     background-color: rgba(255, 255, 255, 0.2);
 
@@ -77,7 +77,7 @@ const ContractInteraction: FC = () => {
       setGreeterMessage(message);
     } catch (error) {
       toast.error("Error while fetching greeting");
-      setGreeterMessage(undefined);
+      setGreeterMessage("");
     }
   };
 
@@ -88,7 +88,6 @@ const ContractInteraction: FC = () => {
   const updateGreeting = async () => {
     if (!activeAccount || !activeSigner || !contract || !api) return;
 
-    toast.loading("Executing transaction...", { id: "update" });
     setIsLoading(true);
     try {
       await contractTx(api, activeAccount.address, contract, "setMessage", {}, [
@@ -99,8 +98,8 @@ const ContractInteraction: FC = () => {
       toast.error(`Error while updating greeting. Try again...`);
     } finally {
       fetchGreeting();
-      toast.dismiss("update");
       setIsLoading(false);
+      setNewMessage("");
     }
   };
 
@@ -119,8 +118,9 @@ const ContractInteraction: FC = () => {
             variant="outlined"
             value={newMessage}
             onChange={(event) => setNewMessage(event.target.value)}
+            disabled={isLoading}
           />
-          <StyledButton onClick={updateGreeting}>
+          <StyledButton onClick={updateGreeting} disabled={isLoading}>
             {isLoading ? <CircularProgress size="1.5rem" /> : "Send"}
           </StyledButton>
         </div>
