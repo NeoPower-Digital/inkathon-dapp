@@ -1,4 +1,4 @@
-import { Button, CircularProgress } from "@mui/material";
+import { Button, CircularProgress, styled } from "@mui/material";
 import { FC } from "react";
 
 interface ConnectionButtonProps {
@@ -7,19 +7,39 @@ interface ConnectionButtonProps {
   isConnecting: boolean | undefined;
 }
 
+const StyledButton = styled(Button)`
+  && {
+    opacity: 1;
+    font-weight: bold;
+    color: white;
+    width: 12rem;
+    padding: 1em 0;
+    border-radius: 2em;
+    background-color: rgba(255, 255, 255, 0.1);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+`;
+
 const ConnectionButton: FC<ConnectionButtonProps> = ({
   connectionHandler,
   buttonText,
   isConnecting,
 }: ConnectionButtonProps) => {
   return (
-    <Button
-      className="text-md min-w-full rounded-full bg-white/10 py-3 font-bold text-white hover:bg-white/20 disabled:cursor-not-allowed sm:min-w-[12em]"
+    <StyledButton
       onClick={() => connectionHandler?.()}
       disabled={isConnecting}
+      variant="contained"
     >
       {isConnecting ? <CircularProgress size="2em" /> : buttonText}
-    </Button>
+    </StyledButton>
   );
 };
 
