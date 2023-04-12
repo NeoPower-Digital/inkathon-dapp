@@ -1,4 +1,4 @@
-![Neopower logo](./public/images/neopower-logo.png)
+[![Neopower logo](./public/images/neopower-logo.png)](https://www.neopower.digital/)
 
 # ink!athon dApp
 
