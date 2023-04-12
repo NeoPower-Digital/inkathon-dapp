@@ -4,6 +4,7 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
+  styled,
 } from "@mui/material";
 import {
   allSubstrateChains,
@@ -12,6 +13,26 @@ import {
 } from "@scio-labs/use-inkathon";
 import { FC, ReactNode, useEffect, useState } from "react";
 import ConnectionButton from "./ConnectionButton";
+
+const StyledFormControl = styled(FormControl)`
+  width: 12rem;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+`;
+
+const StyledSelect = styled(Select)`
+  opacity: 1;
+  font-weight: bold;
+  color: white;
+  border-radius: 2em;
+  background-color: rgba(255, 255, 255, 0.1);
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+`;
 
 const WalletConnection: FC = () => {
   const {
@@ -52,24 +73,14 @@ const WalletConnection: FC = () => {
   };
 
   return (
-    <div className="flex flex-wrap gap-10">
-      <ConnectionButton
-        connectionHandler={connectionOption.handler}
-        buttonText={connectionOption.text}
-        isConnecting={isConnecting}
-      ></ConnectionButton>
-
-      <FormControl
-        className="min-w-full disabled:pointer-events-none disabled:cursor-not-allowed sm:min-w-[12em]"
-        disabled={isConnecting}
-      >
+    <div className="flex w-full flex-wrap justify-end gap-6">
+      <StyledFormControl disabled={isConnecting}>
         <InputLabel id="switch-chain-select-label" className="text-white/75">
           Switch chain
         </InputLabel>
-        <Select
+        <StyledSelect
           labelId="switch-chain-select-label"
           id="switch-chain-select"
-          className=" rounded-full bg-white/10 pl-4 font-bold text-white hover:bg-white/20"
           value={activeChain?.network}
           label="Switch chain"
           onChange={handleSwitchChain}
@@ -84,8 +95,14 @@ const WalletConnection: FC = () => {
               {chain.name}
             </MenuItem>
           ))}
-        </Select>
-      </FormControl>
+        </StyledSelect>
+      </StyledFormControl>
+
+      <ConnectionButton
+        connectionHandler={connectionOption.handler}
+        buttonText={connectionOption.text}
+        isConnecting={isConnecting}
+      ></ConnectionButton>
     </div>
   );
 };

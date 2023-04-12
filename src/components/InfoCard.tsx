@@ -1,4 +1,14 @@
+import { Card, styled } from "@mui/material";
 import { FC, ReactNode } from "react";
+
+export const StyledCard = styled(Card)`
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 1rem;
+  min-width: 20rem;
+  max-width: 25rem;
+  flex: 1;
+`;
 
 const InfoCard: FC<InfoCardData> = ({
   cardTitle,
@@ -6,7 +16,7 @@ const InfoCard: FC<InfoCardData> = ({
   customChildren,
 }: InfoCardData) => {
   return (
-    <div className="flex min-w-[20em] max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20">
+    <StyledCard>
       <div className="flex gap-2">
         <h3 className="text-2xl font-bold">{cardTitle}</h3>
         {customChildren}
@@ -18,7 +28,7 @@ const InfoCard: FC<InfoCardData> = ({
           </div>
         ))}
       </div>
-    </div>
+    </StyledCard>
   );
 };
 
