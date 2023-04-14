@@ -75,7 +75,7 @@ const { connect, disconnect, activeAccount, isConnected } = useInkathon();
 
 ### 📘 Extras
 
-We can manage the connection status with `isConnecting` and show a loading spinner while the user is connecting the wallet.
+We can manage the connection status with `isConnecting` property and show a loading spinner while the user is connecting the wallet.
 This code block also includes code refactoring to have a more readable component
 
 ```jsx
