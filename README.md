@@ -65,7 +65,7 @@ The next button will allow you to connect/disconnect a wallet in the dApp using 
 <details>
 <summary>🚧 Important considerations 🚧</summary>
 <p>
- Intuetively we would think that to determine if the user is connected we should use "isConnected" property, until now this doesn't work as expected so we use "activeAccount" instead
+ Intuitively we would think that to determine if the user is connected we should use "isConnected" property, until now this doesn't work as expected so we use "activeAccount" instead
 </p>
 </details>
 
