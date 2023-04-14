@@ -72,9 +72,11 @@ The next button will allow you to connect/disconnect a wallet in the dApp using 
 ```jsx
 const { connect, disconnect, activeAccount, isConnected } = useInkathon();
 
-<Button onClick={activeAccount ? disconnect : connect}>
-  {activeAccount ? "Disconnect" : "Connect"}
-</Button>;
+return (
+  <Button onClick={activeAccount ? disconnect : connect}>
+    {activeAccount ? "Disconnect" : "Connect"}
+  </Button>
+);
 ```
 
 ### 📘 Extras
@@ -87,20 +89,20 @@ This code block also includes code refactoring to have a more readable component
 ```jsx
 const { connect, disconnect, activeAccount, isConnecting } = useInkathon();
 
-const [connectionHandler, setConnectionHandler] = useState()
+const [connectionHandler, setConnectionHandler] = useState();
 
 useEffect(() => {
-  setConnectionHandler(
-    {
-      text: activeAccount ? "Disconnect" : "Connect",
-      handler: activeAccount ? disconnect : connect,
-    }
-  )
-}, [activeAccount, connect, disconnect])
+  setConnectionHandler({
+    text: activeAccount ? "Disconnect" : "Connect",
+    handler: activeAccount ? disconnect : connect,
+  });
+}, [activeAccount, connect, disconnect]);
 
-<Button onClick={connectionHandler.handler} disabled={isConnecting}>
-{isConnecting? <CircularProgress/> : connectionHandler.text}
-</Button>
+return (
+  <Button onClick={connectionHandler.handler} disabled={isConnecting}>
+    {isConnecting ? <CircularProgress /> : connectionHandler.text}
+  </Button>
+);
 ```
 
 <br>
@@ -147,17 +149,19 @@ const handleSwitchChain = (event) => {
   }
 };
 
-<FormControl>
-  <InputLabel id="switch-chain-label">Switch chain</InputLabel>
-  <Select
-    labelId="switch-chain-label"
-    value={activeChain?.network}
-    label="Switch chain"
-    onChange={handleSwitchChain}
-  >
-    <SubstrateChainSelectItems />
-  </Select>
-</FormControl>;
+return (
+  <FormControl>
+    <InputLabel id="switch-chain-label">Switch chain</InputLabel>
+    <Select
+      labelId="switch-chain-label"
+      value={activeChain?.network}
+      label="Switch chain"
+      onChange={handleSwitchChain}
+    >
+      <SubstrateChainSelectItems />
+    </Select>
+  </FormControl>
+);
 ```
 
 ### 📘 Extras
@@ -173,16 +177,18 @@ const { switchActiveChain, activeChain, isConnecting } = useInkathon();
 
 /* handleSwitchChain code */
 
-<FormControl disabled={isConnecting}>
-  <InputLabel id="switch-chain-label">Switch chain</InputLabel>
-  <Select
-    labelId="switch-chain-label"
-    value={activeChain?.network}
-    label="Switch chain"
-    onChange={handleSwitchChain}
-    disabled={isConnecting}
-  >
-    <SubstrateChainSelectItems />
-  </Select>
-</FormControl>;
+return (
+  <FormControl disabled={isConnecting}>
+    <InputLabel id="switch-chain-label">Switch chain</InputLabel>
+    <Select
+      labelId="switch-chain-label"
+      value={activeChain?.network}
+      label="Switch chain"
+      onChange={handleSwitchChain}
+      disabled={isConnecting}
+    >
+      <SubstrateChainSelectItems />
+    </Select>
+  </FormControl>
+);
 ```
