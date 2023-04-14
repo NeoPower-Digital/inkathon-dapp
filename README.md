@@ -107,7 +107,7 @@ useEffect(() => {
 
 ## Switch chain
 
-Use-inkathon library provides an array of Substrate chains configurations in order to be able to swith between them. This constant is called `allSubstrateChains` and will be useful for building our chain selector
+Use-inkathon library provides an array of Substrate chains configurations in order to be able to switch between them. This constant is called `allSubstrateChains` and will be useful for building our chain selector
 
 ```jsx
 import { allSubstrateChains } from "@scio-labs/use-inkathon";
