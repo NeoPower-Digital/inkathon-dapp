@@ -52,7 +52,7 @@ export default function myApp({ Component, pageProps }) {
 
 With these configurations we are set to start using the library
 
----
+<br>
 
 ## Wallet connection
 
@@ -64,7 +64,6 @@ The next button will allow you to connect/disconnect a wallet in the dApp using 
  Intuetively we would think that to determine if the user is connected we should use "isConnected" property, until now this doesn't work as expected so we use "activeAccount" instead
 </p>
 </details>
-<br>
 
 ```jsx
 const { connect, disconnect, activeAccount, isConnected } = useInkathon();
@@ -73,8 +72,6 @@ const { connect, disconnect, activeAccount, isConnected } = useInkathon();
   {activeAccount ? "Disconnect" : "Connect"}
 </Button>;
 ```
-
-<br>
 
 ### 📘 Extras
 
