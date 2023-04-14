@@ -164,7 +164,7 @@ const handleSwitchChain = (event) => {
 
 #### Switching chain state
 
-Similar to what is done with [Connecting wallet state](#connecting-wallet-state) we can use `isConnecting` property to control the switching chain state
+Similar to what is done with [Connecting wallet state](#connecting-wallet-state) we can use `isConnecting` property to handle the switching chain state
 
 ```jsx
 import { useInkathon } from "@scio-labs/use-inkathon";
