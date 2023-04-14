@@ -10,6 +10,7 @@ This is a repository with a base implementation for Polkadot projects using [use
 2. [Use-inkathon library](#use-inkathon-library)
    1. [Initial configuration](#initial-configuration)
    2. [Wallet connection](#wallet-connection)
+      1. [Extras](#📘-extras)
 
 # Running the template
 
@@ -54,3 +55,47 @@ With these configurations we are set to start using the library
 ---
 
 ## Wallet connection
+
+The next button will allow you to connect/disconnect a wallet in the dApp using Substrate based wallets
+
+<details>
+<summary>🚧 Important considerations 🚧</summary>
+<p>
+ Intuetively we would think that to determine if the user is connected we should use "isConnected" property, until now this doesn't work as expected so we use "activeAccount" instead
+</p>
+</details>
+<br>
+
+```jsx
+const { connect, disconnect, activeAccount, isConnected } = useInkathon();
+
+<Button onClick={activeAccount ? disconnect : connect}>
+  {activeAccount ? "Disconnect" : "Connect"}
+</Button>;
+```
+
+<br>
+
+### 📘 Extras
+
+We can manage the connection status with `isConnecting` and show a loading spinner while the user is connecting the wallet.
+This code block also includes code refactoring to have a more readable component
+
+```jsx
+const { connect, disconnect, activeAccount, isConnecting } = useInkathon();
+
+const [connectionHandler, setConnectionHandler] = useState()
+
+useEffect(() => {
+  setConnectionHandler(
+    {
+      text: activeAccount ? "Disconnect" : "Connect",
+      handler: activeAccount ? disconnect : connect,
+    }
+  )
+}, [activeAccount, connect, disconnect])
+
+<Button onClick={connectionHandler.handler} disabled={isConnecting}>
+{isConnecting? <CircularProgress/> : connectionHandler.text}
+</Button>
+```
