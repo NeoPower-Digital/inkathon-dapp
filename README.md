@@ -10,7 +10,7 @@ This is a repository with a base implementation for Polkadot projects using [use
 2. [Use-inkathon library](#use-inkathon-library)
    1. [Initial configuration](#initial-configuration)
    2. [Wallet connection](#wallet-connection)
-      1. [Extras](#📘-extras)
+      1. [Extras](#-extras)
 
 # Running the template
 
