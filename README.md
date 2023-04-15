@@ -3,7 +3,7 @@
 # ink!athon dApp
 
 This is a repository with a base implementation for Polkadot projects using [use-inkathon](https://github.com/scio-labs/use-inkathon) react library that can be used as a template for creating a new project. \
-This project uses [mui](https://mui.com/) component library.
+This project uses [MUI](https://mui.com/) component library.
 
 # Table of contents
 
@@ -14,11 +14,9 @@ This project uses [mui](https://mui.com/) component library.
       1. [Connecting wallet state](#connecting-wallet-state)
    3. [Switch chain](#switch-chain)
       1. [Switching chain state](#switching-chain-state)
-      2. Adding a Substrate Chain
+      2. [Adding a Substrate Chain](#adding-a-substrate-chain)
 
 # Running the template
-
-    @@ -65,130 +61,39 @@ The next button will allow you to connect/disconnect a wallet in the dApp using
 
 ```python
 #In first place we have to install the required dependencies
@@ -55,6 +53,7 @@ export default function myApp({ Component, pageProps }) {
 ```
 
 With these configurations we are set to start using the library
+
 <br>
 
 ## Wallet connection
@@ -63,6 +62,7 @@ The next button will allow you to connect/disconnect a wallet in the dApp using 
 
 <details>
 <summary>🚧 Important considerations 🚧</summary>
+<br>
 <p>
  Intuitively we would think that to determine if the user is connected we should use "isConnected" property, until now this doesn't work as expected so we use "activeAccount" instead
 </p>
@@ -178,4 +178,60 @@ return (
     </Select>
   </FormControl>
 );
+```
+
+#### Adding a Substrate Chain
+
+In case we need to connect to a chain that is not inlcuded in `allSubstrateChains` constant, we can add a new one as showed in the following code block with [Acala Network](https://acala.network/) example
+
+```ts
+import { SubstrateChain, allSubstrateChains } from "@scio-labs/use-inkathon";
+
+export const acalaNetwork: SubstrateChain = {
+  network: "acala",
+  name: "Acala",
+  rpcUrls: ["wss://acala-rpc.dwellir.com"],
+  explorerUrls: [
+    "https://polkadot.js.org/apps/#/explorer?rpc=wss://acala-rpc.dwellir.com",
+  ],
+  testnet: false,
+  faucetUrls: [
+    "https://polkadot.js.org/apps/#/accounts?wss://acala-rpc.dwellir.com",
+  ],
+};
+
+export const inkathonDappChains: SubstrateChain[] = [
+  ...allSubstrateChains,
+  acalaNetwork,
+];
+```
+
+Now we can modify our switch chain component to use our new `inkathonDappChains` constant
+
+```tsx
+const SubstrateChainSelectItems = (
+  <>
+    {
+      inkathonDappChains.map((chain: SubstrateChain, index: number) => (
+    <MenuItem
+      key={index}
+      value={chain.network}
+    >
+      {chain.name}
+    </MenuItem>
+    ));
+    }
+  </>
+);
+
+const handleSwitchChain = (event) => {
+  const selectedChain = inkathonDappChains.find(
+    (chain) => chain.network === event.target.value
+  );
+  if (selectedChain && switchActiveChain) {
+    switchActiveChain(selectedChain);
+  }
+};
+
+/*Form control with Select chain*/
 ```
