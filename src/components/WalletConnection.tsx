@@ -6,12 +6,9 @@ import {
   SelectChangeEvent,
   styled,
 } from "@mui/material";
-import {
-  allSubstrateChains,
-  SubstrateChain,
-  useInkathon,
-} from "@scio-labs/use-inkathon";
+import { SubstrateChain, useInkathon } from "@scio-labs/use-inkathon";
 import { FC, ReactNode, useEffect, useState } from "react";
+import { inkathonDappChains } from "~/constants/chains.const";
 import ConnectionButton from "./ConnectionButton";
 
 const StyledFormControl = styled(FormControl)`
@@ -63,7 +60,7 @@ const WalletConnection: FC = () => {
     event: SelectChangeEvent<unknown>,
     _: ReactNode
   ) => {
-    const selectedChain: SubstrateChain | undefined = allSubstrateChains.find(
+    const selectedChain: SubstrateChain | undefined = inkathonDappChains.find(
       (chain) => chain.network === event.target.value
     );
 
@@ -86,7 +83,7 @@ const WalletConnection: FC = () => {
           onChange={handleSwitchChain}
           disabled={isConnecting}
         >
-          {allSubstrateChains.map((chain: SubstrateChain, index: number) => (
+          {inkathonDappChains.map((chain: SubstrateChain, index: number) => (
             <MenuItem
               key={index}
               value={chain.network}
