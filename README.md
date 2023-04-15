@@ -2,7 +2,8 @@
 
 # ink!athon dApp
 
-This is a repository with a base implementation for Polkadot projects using [use-inkathon](https://github.com/scio-labs/use-inkathon) react library that can be used as a template for creating a new project.
+This is a repository with a base implementation for Polkadot projects using [use-inkathon](https://github.com/scio-labs/use-inkathon) react library that can be used as a template for creating a new project. \
+This project uses [mui](https://mui.com/) component library.
 
 # Table of contents
 
@@ -10,14 +11,18 @@ This is a repository with a base implementation for Polkadot projects using [use
 2. [Use-inkathon library](#use-inkathon-library)
    1. [Initial configuration](#initial-configuration)
    2. [Wallet connection](#wallet-connection)
-      1. [Extras](#-extras)
+      1. [Connecting wallet state](#connecting-wallet-state)
+   3. [Switch chain](#switch-chain)
+      1. [Switching chain state](#switching-chain-state)
+      2. Adding a Substrate Chain
 
 # Running the template
+
+    @@ -65,130 +61,39 @@ The next button will allow you to connect/disconnect a wallet in the dApp using
 
 ```python
 #In first place we have to install the required dependencies
 yarn
-
 #Now we can run develompent server
 yarn dev
 #Open http://localhost:3000 to see the dApp
@@ -37,7 +42,6 @@ Then we have to set the **dApp name** and the **default chain**. The library pro
 
 ```tsx
 import { alephzeroTestnet, UseInkathonProvider } from "@scio-labs/use-inkathon";
-
 export default function myApp({ Component, pageProps }) {
   return (
     <UseInkathonProvider
@@ -51,7 +55,6 @@ export default function myApp({ Component, pageProps }) {
 ```
 
 With these configurations we are set to start using the library
-
 <br>
 
 ## Wallet connection
@@ -61,39 +64,118 @@ The next button will allow you to connect/disconnect a wallet in the dApp using 
 <details>
 <summary>🚧 Important considerations 🚧</summary>
 <p>
-   <br>
- Intuetively we would think that to determine if the user is connected we should use "isConnected" property, until now this doesn't work as expected so we use "activeAccount" instead
+ Intuitively we would think that to determine if the user is connected we should use "isConnected" property, until now this doesn't work as expected so we use "activeAccount" instead
 </p>
 </details>
 
 ```jsx
 const { connect, disconnect, activeAccount, isConnected } = useInkathon();
-
-<Button onClick={activeAccount ? disconnect : connect}>
-  {activeAccount ? "Disconnect" : "Connect"}
-</Button>;
+return (
+  <Button onClick={activeAccount ? disconnect : connect}>
+    {activeAccount ? "Disconnect" : "Connect"}
+  </Button>
+);
 ```
 
 ### 📘 Extras
 
-We can manage the connection status with `isConnecting` and show a loading spinner while the user is connecting the wallet.
+#### Connecting wallet state
+
+We can manage the connection status with `isConnecting` property and show a loading spinner while the user is connecting the wallet. \
 This code block also includes code refactoring to have a more readable component
 
 ```jsx
 const { connect, disconnect, activeAccount, isConnecting } = useInkathon();
-
-const [connectionHandler, setConnectionHandler] = useState()
-
+const [connectionHandler, setConnectionHandler] = useState();
 useEffect(() => {
-  setConnectionHandler(
-    {
-      text: activeAccount ? "Disconnect" : "Connect",
-      handler: activeAccount ? disconnect : connect,
-    }
-  )
-}, [activeAccount, connect, disconnect])
+  setConnectionHandler({
+    text: activeAccount ? "Disconnect" : "Connect",
+    handler: activeAccount ? disconnect : connect,
+  });
+}, [activeAccount, connect, disconnect]);
+return (
+  <Button onClick={connectionHandler.handler} disabled={isConnecting}>
+    {isConnecting ? <CircularProgress /> : connectionHandler.text}
+  </Button>
+);
+```
 
-<Button onClick={connectionHandler.handler} disabled={isConnecting}>
-{isConnecting? <CircularProgress/> : connectionHandler.text}
-</Button>
+<br>
+
+## Switch chain
+
+Use-inkathon library provides an array of Substrate chains configurations in order to be able to switch between them. This constant is called `allSubstrateChains` and will be useful for building our chain selector
+
+```jsx
+import { allSubstrateChains } from "@scio-labs/use-inkathon";
+const SubstrateChainSelectItems = (
+  <>
+    {
+      allSubstrateChains.map((chain: SubstrateChain, index: number) => (
+    <MenuItem
+      key={index}
+      value={chain.network}
+    >
+      {chain.name}
+    </MenuItem>
+    ));
+    }
+  </>
+);
+```
+
+Now that we have Substrate chains mapped to the Select item component we can build the final component. \
+`useInkathon` hook provides `activeChain` property that contains all the offline chain data, this is all the information that can be provided without connecting to the corresponding RPC. We will use this to know which is the selected chain. \
+The hook also provides `switchActiveChain` method that allows to change the selected chain by providing a SubstrateChain object as a parameter.
+
+```jsx
+import { useInkathon } from "@scio-labs/use-inkathon";
+const { switchActiveChain, activeChain } = useInkathon();
+const handleSwitchChain = (event) => {
+  const selectedChain = allSubstrateChains.find(
+    (chain) => chain.network === event.target.value
+  );
+  if (selectedChain && switchActiveChain) {
+    switchActiveChain(selectedChain);
+  }
+};
+return (
+  <FormControl>
+    <InputLabel id="switch-chain-label">Switch chain</InputLabel>
+    <Select
+      labelId="switch-chain-label"
+      value={activeChain?.network}
+      label="Switch chain"
+      onChange={handleSwitchChain}
+    >
+      <SubstrateChainSelectItems />
+    </Select>
+  </FormControl>
+);
+```
+
+### 📘 Extras
+
+#### Switching chain state
+
+Similar to what is done with [Connecting wallet state](#connecting-wallet-state) we can use `isConnecting` property to handle the switching chain state
+
+```jsx
+import { useInkathon } from "@scio-labs/use-inkathon";
+const { switchActiveChain, activeChain, isConnecting } = useInkathon();
+/* handleSwitchChain code */
+return (
+  <FormControl disabled={isConnecting}>
+    <InputLabel id="switch-chain-label">Switch chain</InputLabel>
+    <Select
+      labelId="switch-chain-label"
+      value={activeChain?.network}
+      label="Switch chain"
+      onChange={handleSwitchChain}
+      disabled={isConnecting}
+    >
+      <SubstrateChainSelectItems />
+    </Select>
+  </FormControl>
+);
 ```
