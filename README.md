@@ -1,4 +1,9 @@
-[![Neopower logo](./public/images/neopower-logo.png)](https://www.neopower.digital/)
+<p align="center">
+   <a href="https://www.neopower.digital/">   
+     <img src="./public/images/neopower-logo.png" alt="Neopower logo">
+   </a>
+</p>
+
 
 # ink!athon dApp
 
