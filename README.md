@@ -16,6 +16,7 @@ This project uses [MUI](https://mui.com/) component library.
    1. [Initial configuration](#initial-configuration)
    2. [Wallet connection](#wallet-connection)
       1. [Connecting wallet state](#connecting-wallet-state)
+      2. [Autoconnect on init](#autoconnect-on-init)
    3. [Switch chain](#switch-chain)
       1. [Switching chain state](#switching-chain-state)
       2. [Adding a Substrate Chain](#adding-a-substrate-chain)
@@ -65,7 +66,7 @@ With these configurations we are set to start using the library
 
 <br>
 
-## Wallet connection
+## 🎟️ Wallet connection
 
 The next button will allow you to connect/disconnect a wallet in the dApp using Substrate based wallets
 
@@ -88,7 +89,7 @@ return (
 
 ### 📘 Extras
 
-#### Connecting wallet state
+#### 🔋️ Connecting wallet state
 
 We can manage the connection status with `isConnecting` property and show a loading spinner while the user is connecting the wallet. \
 This code block also includes code refactoring to have a more readable component
@@ -109,9 +110,25 @@ return (
 );
 ```
 
+#### 🔌️ Autoconnect on init
+
+If we want to connect the user wallet on the app initialization we can set that in the inkathon provider with the property `connectOnInit`
+
+```tsx
+return (
+  <UseInkathonProvider
+    appName="inkathon-dApp"
+    defaultChain={alephzeroTestnet}
+    connectOnInit={true}
+  >
+    <Component {...pageProps} />
+  </UseInkathonProvider>
+);
+```
+
 <br>
 
-## Switch chain
+## ⛓️ Switch chain
 
 Use-inkathon library provides an array of Substrate chains configurations in order to be able to switch between them. This constant is called `allSubstrateChains` and will be useful for building our chain selector
 
@@ -165,7 +182,7 @@ return (
 
 ### 📘 Extras
 
-#### Switching chain state
+#### 🔋️ Switching chain state
 
 Similar to what is done with [Connecting wallet state](#connecting-wallet-state) we can use `isConnecting` property to handle the switching chain state
 
@@ -189,7 +206,7 @@ return (
 );
 ```
 
-#### Adding a Substrate Chain
+#### ➕️ Adding a Substrate Chain
 
 In case we need to connect to a chain that is not inlcuded in `allSubstrateChains` constant, we can add a new one as showed in the following code block with [Acala Network](https://acala.network/) example
 
@@ -245,7 +262,7 @@ const handleSwitchChain = (event) => {
 /*Form control with Select chain*/
 ```
 
-## Contract Interaction
+## 📜️ Contract Interaction
 
 ### ⚙️ Configuration
 
@@ -288,7 +305,7 @@ export default function myApp({ Component, pageProps }) {
 }
 ```
 
-### Contract query
+### 📤️ Contract query
 
 First we will get our contract and initialize a state string to store the contract value. To get our contract we wil use `useRegisteredContract` hook with the id that we've set to the contract deployment [previously](#⚙️-configuration)
 
@@ -327,7 +344,7 @@ return (
 );
 ```
 
-### Contract Transaction
+### 📥️ Contract Transaction
 
 Now that we have our contract query implemented we can include the contract transaction to update the greeter message. \
 First we will create a function to update the greeting using `contractTx` provided by use-inkathon library
