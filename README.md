@@ -4,7 +4,6 @@
    </a>
 </p>
 
-
 # ink!athon dApp
 
 This is a repository with a base implementation for Polkadot projects using [use-inkathon](https://github.com/scio-labs/use-inkathon) react library that can be used as a template for creating a new project. \
@@ -45,6 +44,7 @@ Then we have to set the **dApp name** and the **default chain**. The library pro
 
 ```tsx
 import { alephzeroTestnet, UseInkathonProvider } from "@scio-labs/use-inkathon";
+
 export default function myApp({ Component, pageProps }) {
   return (
     <UseInkathonProvider
@@ -239,4 +239,86 @@ const handleSwitchChain = (event) => {
 };
 
 /*Form control with Select chain*/
+```
+
+## Contract Interaction
+
+### ⚙️ Configuration
+
+To interact with a contract we have to register the contracts deployments in the app initialization. We will define `getDeployments` function to define the contracts we will use in our application. \
+We have to include our contract json file in our application so we can get the abi in our configuration function, just like it is done [greeter contract](./src/contracts/alephzero-testnet/greeter-abi.json)
+
+```ts
+import { SubstrateDeployment, alephzeroTestnet } from "@scio-labs/use-inkathon";
+import abi from "~/contracts/alephzero-testnet/greeter-abi.json";
+
+export const getDeployments = async (): Promise<SubstrateDeployment[]> => {
+  return [
+    {
+      contractId: "greeter",
+      networkId: alephzeroTestnet.network,
+      abi: abi,
+      address: "5HUMq3LnzEiP9dXK8qBRjnucaezuNy1w1yzPEeNJpKe3Ttj7",
+    },
+  ];
+};
+```
+
+Then we have to add the function call in the `deployments` attribute in the use-inkathon provider
+
+```tsx
+import { alephzeroTestnet, UseInkathonProvider } from "@scio-labs/use-inkathon";
+import { getDeployments } from "~/utils/web3/deployed-contracts";
+
+export default function myApp({ Component, pageProps }) {
+  return (
+    <UseInkathonProvider
+      appName="inkathon-dApp"
+      defaultChain={alephzeroTestnet}
+      connectOnInit={true}
+      deployments={getDeployments()}
+    >
+      <Component {...pageProps} />
+    </UseInkathonProvider>
+  );
+}
+```
+
+### Contract query
+
+First we will get our contract and initialize a state string to store the contract value. To get our contract we wil use `useRegisteredContract` hook with the id that we've set to the contract deployment [previously](#⚙️-configuration)
+
+```tsx
+const { contract } = useRegisteredContract("greeter");
+const [greeterMessage, setGreeterMessage] = useState<string>();
+```
+
+We will define a function to fetch our contract greeting.
+
+```tsx
+const fetchGreeting = async () => {
+  if (!contract || !api || !contractAddress) return;
+
+  const result = await contractQuery(api, "", contract, "greet");
+  const message = unwrapResultOrDefault<string>(result, "Error");
+
+  setGreeterMessage(message);
+};
+
+useEffect(() => {
+  fetchGreeting();
+}, [contract, api]);
+```
+
+And now we can display the contract value in our UI
+
+```tsx
+return (
+  <>
+    <h3>Greeter Contract</h3>
+    <div>
+      Meesage: <span className="font-bold">{greeterMessage}</span>
+    </div>
+  </>
+);
 ```
