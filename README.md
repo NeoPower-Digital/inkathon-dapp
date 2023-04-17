@@ -22,6 +22,7 @@ This project uses [MUI](https://mui.com/) component library.
    4. [Contract interaction](#contract-interaction)
       1. [Configuration](#%EF%B8%8F-configuration)
       2. [Contract query](#contract-query)
+      3. [Contract transaction](#contract-transaction)
 
 # Running the template
 
@@ -324,4 +325,43 @@ return (
     </div>
   </>
 );
+```
+
+### Contract Transaction
+
+Now that we have our contract query implemented we can include the contract transaction to update the greeter message. \
+First we will create a function to update the greeting using `contractTx` provided by use-inkathon library
+
+```tsx
+import { contractTx } from "@scio-labs/use-inkathon";
+
+const updateGreeting = async () => {
+  if (!activeAccount || !activeSigner || !contract || !api) return;
+
+  await contractTx(api, activeAccount.address, contract, "setMessage", {}, [
+    newMessage,
+  ]);
+};
+```
+
+With this function implemented we can create a `newMessage` state and use it in a text input to update the greeting message
+
+```tsx
+const [newMessage, setNewMessage] = useState<string>();
+
+/*updateGreeting function*/
+
+return (
+  <>
+    <TextField
+      value={newMessage}
+      onChange={(event) => setNewMessage(event.target.value)}
+    />
+    <Button
+      onClick={updateGreeting}
+    >
+      "Send"
+    </StyledButton>
+  </>
+)
 ```
