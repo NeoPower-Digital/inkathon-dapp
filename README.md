@@ -19,6 +19,9 @@ This project uses [MUI](https://mui.com/) component library.
    3. [Switch chain](#switch-chain)
       1. [Switching chain state](#switching-chain-state)
       2. [Adding a Substrate Chain](#adding-a-substrate-chain)
+   4. [Contract interaction](#contract-interaction)
+      1. [Configuration](#%EF%B8%8F-configuration)
+      2. [Contract query](#contract-query)
 
 # Running the template
 
