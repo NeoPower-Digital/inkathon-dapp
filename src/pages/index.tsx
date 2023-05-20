@@ -1,7 +1,21 @@
+import { alephzeroTestnet, useInkathon } from "@scio-labs/use-inkathon";
 import { type NextPage } from "next";
 import Head from "next/head";
+import { useEffect } from "react";
+import { toast } from "react-hot-toast";
+import ContractInteraction from "~/components/ContractInteraction";
+import WalletConnection from "~/components/WalletConnection";
+import WalletInfo from "~/components/WalletInfo";
 
 const Home: NextPage = () => {
+  const { error, activeChain } = useInkathon();
+
+  useEffect(() => {
+    if (!error) return;
+
+    toast.error(error.message);
+  }, [error]);
+
   return (
     <>
       <Head>
@@ -10,34 +24,21 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#1b1e32] to-[#3b949f]">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
+        <div className="container flex min-h-screen flex-col items-center justify-center gap-12 px-4 py-16 ">
+          <div className="align-self-start ml-auto flex-1 pr-0">
+            <WalletConnection></WalletConnection>
+          </div>
+
+          <h1 className="flex-1 text-center text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
             ink<span className="text-[#4f94da] text-opacity-50">!</span>athon
             dApp
           </h1>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-            <div className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20">
-              <h3 className="text-2xl font-bold">Chain info </h3>
-              <div className="text-lg">
-                <div className="flex justify-between gap-3">
-                  Chain: <span className="font-bold">Astar Network</span>
-                </div>
-                <div className="flex justify-between gap-3">
-                  Version: <span className="font-bold">v0.0.52</span>
-                </div>
-                <div className="flex justify-between gap-3">
-                  Token: <span className="font-bold">ASTR (18 decimals)</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20">
-              <h3 className="text-2xl font-bold">Smart Contract </h3>
-              <div className="text-lg">
-                <div className="flex justify-between gap-3">
-                  Address: <span className="font-bold">5HUMq...3Ttj7</span>
-                </div>
-              </div>
-            </div>
+
+          <div className="flex flex-2 flex-col justify-center gap-4">
+            <WalletInfo></WalletInfo>
+            {activeChain?.name === alephzeroTestnet.name && (
+              <ContractInteraction />
+            )}
           </div>
         </div>
       </main>
